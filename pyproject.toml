@@ -18,7 +18,8 @@ dependencies = [
     "click>=8.1.0",
 ]
 
-[project.optional-dependencies]
+[project.scripts]
+atlas-chat = "atlas.cli:chat"
 dev = [
     "pytest>=7.0",
     "pytest-cov>=4.0",
@@ -35,9 +36,6 @@ monitoring = [
 langfuse = [
     "langfuse>=2.0",
 ]
-
-[project.scripts]
-atlas-chat = "atlas.cli:main"
 
 [tool.setuptools]
 packages = ["atlas"]

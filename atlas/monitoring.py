@@ -67,17 +67,36 @@ class TraceLogger:
             f.write(json.dumps(trace) + "\n")
 
 
-def traced(log_path: str = "./logs/traces.jsonl"):
-    """Décorateur pour tracer automatiquement les appels"""
-    
+def traced(logger, session_id, model, memory_hits=0):
+
     def decorator(func):
-        @wraps(func)
         def wrapper(*args, **kwargs):
             start = time.perf_counter()
+
             result = func(*args, **kwargs)
-            elapsed_ms = (time.perf_counter() - start) * 1000
-            
-            # À compléter selon les besoins
+
+            latency = (time.perf_counter() - start) * 1000
+
+            try:
+                metadata = result.get("metadata", {})
+                user_message = kwargs.get("user_message", "")
+                assistant_message = result.get("response", "")
+
+                logger.log_interaction(
+                    session_id=session_id,
+                    model=model,
+                    user_message=user_message,
+                    assistant_message=assistant_message,
+                    prompt_tokens=metadata.get("prompt_tokens", 0),
+                    completion_tokens=metadata.get("completion_tokens", 0),
+                    latency_ms=latency,
+                    memory_hits=memory_hits
+                )
+            except Exception as e:
+                print("trace error:", e)
+
             return result
+
         return wrapper
+
     return decorator

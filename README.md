@@ -8,7 +8,7 @@ Fournir aux consultants un assistant IA local qui :
 - Répond à des questions techniques
 - Mémorise les échanges précédents
 - Respecte des règles de confidentialité (pas de fuites de données client)
-- Fonctionne entièrement on-premise (zéro données envoyées à OpenAI/Anthropic)
+- Fonctionne entièrement on-premise (zero données envoyées à OpenAI/Anthropic)
 
 ## 🚀 Démarrage rapide
 
@@ -53,8 +53,46 @@ curl http://localhost:11434/api/tags
 
 6. **Lancer l'assistant** :
 ```bash
-atlas-chat
+# Activer l'environnement virtuel
+venv\Scripts\activate  # Windows
+# ou
+source venv/bin/activate  # Linux/Mac
+
+# Lancer le chat interactif
+python atlas_chat.py chat
+
+# Options disponibles :
+python atlas_chat.py chat --help
 ```
+
+### Utilisation du chat
+
+Une fois lancé, vous pouvez discuter avec Atlas :
+
+```
+🤖 Bienvenue dans ATLAS - Assistant IA Local
+📚 Modèle: llama3.2:3b
+🌡️  Température: 0.3
+🛡️  Guardrails: Activés
+--------------------------------------------------
+Vous: Bonjour Atlas !
+🤖 Atlas: Bonjour ! Je suis Atlas, votre assistant IA. Comment puis-je vous aider ?
+Vous: Quelles sont tes fonctionnalités ?
+🤖 Atlas: Je peux vous aider avec des questions techniques, la documentation, l'organisation de projets...
+Vous: quit
+👋 Au revoir !
+```
+
+**Commandes spéciales :**
+- `quit` / `exit` / `q` : Quitter la session
+- `clear` / `cls` : Effacer l'historique
+- `help` : Afficher l'aide
+
+**Options CLI :**
+- `--model MODEL` : Changer de modèle
+- `--temperature TEMP` : Ajuster la créativité (0-1)
+- `--system-prompt PROMPT` : Prompt système personnalisé
+- `--no-guardrails` : Désactiver les règles de sécurité
 
 ## 📁 Structure du projet
 

@@ -1,5 +1,5 @@
 """
-Module wrapper pour l'API Ollama
+Module wraper pour l'API Ollama
 Gère la communication avec les modèles LLM locaux
 """
 

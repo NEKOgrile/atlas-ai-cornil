@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Script de test pour le client Ollama
-Permet de verifier que la connexion fonctionne et tester un chat simple
+Permet de vérifier que la connexion fonctionne et tester un chat simple
 """
 
 import sys

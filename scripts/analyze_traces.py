@@ -1,62 +1,32 @@
-#!/usr/bin/env python3
-"""
-Script d'analyse des traces (Sprint 3)
-Génère des statistiques sur les interactions LLM
-"""
+import pandas as pd
+import matplotlib.pyplot as plt
 
-import json
-import sys
-from pathlib import Path
-from typing import List, Dict, Any
+df = pd.read_json("logs/traces.jsonl", lines=True)
 
+print("nb interactions:", len(df))
 
-def load_traces(log_path: str) -> List[Dict[str, Any]]:
-    """Charge les traces JSONL"""
-    traces = []
-    log_file = Path(log_path)
-    
-    if not log_file.exists():
-        print(f"Fichier de traces non trouvé: {log_path}")
-        return traces
-    
-    with open(log_file, "r") as f:
-        for line in f:
-            if line.strip():
-                traces.append(json.loads(line))
-    
-    return traces
+print("\nlatence moyenne:", int(df["latency_ms"].mean()), "ms")
+print("latence médiane:", int(df["latency_ms"].median()), "ms")
+print("latence p95:", int(df["latency_ms"].quantile(0.95)), "ms")
+
+print("\nprompt tokens moyen:", int(df["prompt_tokens"].mean()))
+
+print("\nplus lentes requêtes:")
+print(df.sort_values("latency_ms", ascending=False)[["latency_ms", "user_message"]].head(5))
 
 
-def analyze_traces(traces: List[Dict]) -> None:
-    """Analyse les traces et affiche les statistiques"""
-    if not traces:
-        print("Aucune trace à analyser")
-        return
-    
-    print("=" * 60)
-    print("ANALYSE DES TRACES ATLAS")
-    print("=" * 60)
-    
-    # Statistiques basiques
-    latencies = [t.get("latency_ms", 0) for t in traces]
-    prompt_tokens = [t.get("prompt_tokens", 0) for t in traces]
-    completion_tokens = [t.get("completion_tokens", 0) for t in traces]
-    
-    print(f"\nNombre d'interactions: {len(traces)}")
-    print(f"\nLatence (ms):")
-    print(f"  - Min: {min(latencies):.0f}")
-    print(f"  - Max: {max(latencies):.0f}")
-    print(f"  - Moyenne: {sum(latencies)/len(latencies):.0f}")
-    
-    print(f"\nTokens:")
-    print(f"  - Prompt total: {sum(prompt_tokens)}")
-    print(f"  - Completion total: {sum(completion_tokens)}")
-    print(f"  - Moyenne prompt: {sum(prompt_tokens)/len(traces):.0f}")
-    
-    print("\n" + "=" * 60)
+# 🔥 distribution tokens
+plt.hist(df["prompt_tokens"], bins=10)
+plt.title("distribution des tokens")
+plt.show()
 
 
-if __name__ == "__main__":
-    log_path = "./logs/traces.jsonl"
-    traces = load_traces(log_path)
-    analyze_traces(traces)
+# 🔥 estimation coût GPT-4o (approx)
+# prix approx: $5 / 1M tokens input, $15 / 1M output
+input_cost = df["prompt_tokens"].sum() / 1_000_000 * 5
+output_cost = df["completion_tokens"].sum() / 1_000_000 * 15
+
+print("\ncout estimé GPT-4o:")
+print("input:", round(input_cost, 4), "$")
+print("output:", round(output_cost, 4), "$")
+print("total:", round(input_cost + output_cost, 4), "$")
