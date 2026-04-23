@@ -106,13 +106,28 @@ atlas-ai-cornil/
 │   └── guardrails.py  # Règles de sécurité
 ├── config/            # Fichiers de configuration
 ├── data/              # Données persistantes
+├── docs/              # Documentation du projet
+├── logs/              # Traces et journaux
 ├── scripts/           # Scripts utilitaires
 ├── tests/             # Tests unitaires
-├── docs/              # Documentation
 ├── .gitignore
 ├── pyproject.toml     # Dépendances Python
 └── README.md
 ```
+
+## 📚 Docs projet
+
+Toutes les pages de documentation sont dans `docs/` :
+
+- `docs/README.md` — guide d'utilisation du dossier docs
+- `docs/architecture.md` — architecture et décisions
+- `docs/installation.md` — installation et démarrage
+- `docs/configuration.md` — options YAML et validation
+- `docs/monitoring.md` — logs, métriques et analyse
+- `docs/governance.md` — guardrails et RGPD
+- `docs/operations.md` — runbook d'exploitation
+- `docs/security.md` — modèle de menace et sécurité
+- `docs/ADR-001-choix-ollama.md` — décision d'architectures Ollama
 
 ## 📊 Sprints
 
