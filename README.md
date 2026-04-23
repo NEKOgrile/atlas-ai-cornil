@@ -59,10 +59,10 @@ venv\Scripts\activate  # Windows
 source venv/bin/activate  # Linux/Mac
 
 # Lancer le chat interactif
-python atlas_chat.py chat
+python -m atlas.cli chat
 
 # Options disponibles :
-python atlas_chat.py chat --help
+python -m atlas.cli chat --help
 ```
 
 ### Utilisation du chat
