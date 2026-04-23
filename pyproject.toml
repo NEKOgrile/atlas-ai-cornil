@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "atlas-ai"
+version = "0.1.0"
+description = "Assistant IA local pour ATLAS Consulting"
+readme = "README.md"
+authors = [
+    {name = "Cornil", email = "cornil@atlas.local"}
+]
+requires-python = ">=3.10"
+dependencies = [
+    "requests>=2.31.0",
+    "pyyaml>=6.0",
+    "pydantic>=2.0",
+    "click>=8.1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "black>=23.0",
+    "flake8>=6.0",
+]
+memory = [
+    "chromadb>=0.4.0",
+]
+monitoring = [
+    "pandas>=2.0",
+    "matplotlib>=3.7",
+]
+langfuse = [
+    "langfuse>=2.0",
+]
+
+[project.scripts]
+atlas-chat = "atlas.cli:main"
+
+[tool.setuptools]
+packages = ["atlas"]
+
+[tool.black]
+line-length = 100
+target-version = ["py310"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

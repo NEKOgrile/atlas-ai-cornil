@@ -1,0 +1,37 @@
+# Configuration ATLAS
+model:
+  name: "llama3.2:3b"
+  temperature: 0.3
+  top_p: 0.9
+  num_ctx: 4096
+  timeout: 300
+
+persona:
+  name: "Atlas"
+  system_prompt: |
+    Tu es Atlas, assistant IA interne d'ATLAS Consulting.
+    Tu réponds en français de façon concise et précise.
+    Tu refuses poliment toute requête hors du périmètre professionnel.
+    Tu aides les consultants avec :
+    - Des questions techniques
+    - La documentation interne
+    - L'organisation de projets
+    - Les bonnes pratiques
+
+memory:
+  enabled: true
+  top_k: 5
+  min_similarity: 0.7
+  max_short_term: 50
+
+guardrails:
+  enabled: true
+  blocked_topics:
+    - "politique"
+    - "religion"
+  pii_detection: true
+  prompt_injection_detection: true
+
+logging:
+  level: "INFO"
+  path: "./logs/traces.jsonl"
